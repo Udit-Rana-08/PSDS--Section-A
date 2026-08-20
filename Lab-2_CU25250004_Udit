@@ -1,0 +1,67 @@
+//Linear search
+#include <iostream>
+
+int linearSearch(const int arr[], int size, int target) {
+    for (int i = 0; i < size; ++i) {
+        if (arr[i] == target) {
+            return i; // Target found, return index
+        }
+    }
+    return -1; // Target not found
+}
+
+int main() {
+    int data[] = {12, 45, 7, 23, 89, 34};
+    int size = sizeof(data) / sizeof(data[0]);
+    int target = 23;
+
+    int result = linearSearch(data, size, target);
+
+    if (result != -1) {
+        std::cout << "Element found at index: " << result << std::endl;
+    } else {
+        std::cout << "Element not found." << std::endl;
+    }
+
+    return 0;
+}
+
+
+//Binary search
+
+#include <iostream>
+
+int binarySearch(const int arr[], int size, int target) {
+    int left = 0;
+    int right = size - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] == target) {
+            return mid; // Target found
+        }
+        if (arr[mid] < target) {
+            left = mid + 1; // Search right half
+        } else {
+            right = mid - 1; // Search left half
+        }
+    }
+    return -1; // Target not found
+}
+
+int main() {
+    int data[] = {7, 12, 23, 34, 45, 89}; // Array must be sorted
+    int size = sizeof(data) / sizeof(data[0]);
+    int target = 34;
+
+    int result = binarySearch(data, size, target);
+
+    if (result != -1) {
+        std::cout << "Element found at index: " << result << std::endl;
+    } else {
+        std::cout << "Element not found." << std::endl;
+    }
+
+    return 0;
+}
