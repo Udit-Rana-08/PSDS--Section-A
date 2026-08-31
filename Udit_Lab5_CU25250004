@@ -1,0 +1,96 @@
+Code 1 
+
+#include <iostream>
+#include <string>
+#include <stack>
+#include <cctype>
+
+int getPrecedence(char op) {
+    if (op == '+' || op == '-') return 1;
+    if (op == '*' || op == '/') return 2;
+    if (op == '^') return 3;
+    return 0;
+}
+
+std::string infixToPostfix(std::string expression) {
+    std::stack<char> opStack;
+    std::string output = "";
+
+    for (char ch : expression) {
+        if (isalnum(ch)) {
+            output += ch;
+        }
+        else if (ch == '(') {
+            opStack.push(ch);
+        }
+        else if (ch == ')') {
+            while (!opStack.empty() && opStack.top() != '(') {
+                output += opStack.top();
+                opStack.pop();
+            }
+            if (!opStack.empty()) opStack.pop();
+        }
+        else if (ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '^') {
+            while (!opStack.empty() && getPrecedence(opStack.top()) >= getPrecedence(ch)) {
+                output += opStack.top();
+                opStack.pop();
+            }
+            opStack.push(ch);
+        }
+    }
+
+    while (!opStack.empty()) {
+        output += opStack.top();
+        opStack.pop();
+    }
+
+    return output;
+}
+
+int main() {
+    std::string expr = "A+(B*C)";
+    
+    std::cout << "Infix:   " << expr << std::endl;
+    std::cout << "Postfix: " << infixToPostfix(expr) << std::endl;
+
+    return 0;
+}
+
+Code 2
+
+#include <iostream>
+#include <string>
+#include <stack>
+#include <cctype>
+#include <cmath>
+
+int evaluatePostfix(std::string expression) {
+    std::stack<int> s;
+
+    for (char ch : expression) {
+        if (isdigit(ch)) {
+            s.push(ch - '0');
+        }
+        else if (ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '^') {
+            int val2 = s.top(); s.pop();
+            int val1 = s.top(); s.pop();
+
+            if (ch == '+') s.push(val1 + val2);
+            else if (ch == '-') s.push(val1 - val2);
+            else if (ch == '*') s.push(val1 * val2);
+            else if (ch == '/') s.push(val1 / val2);
+            else if (ch == '^') s.push(pow(val1, val2));
+        }
+    }
+
+    return s.top();
+}
+
+int main() {
+    std::string testPostfix = "231*+9-";
+
+    std::cout << "Postfix Expression: " << testPostfix << std::endl;
+    std::cout << "Computed Output:    " << evaluatePostfix(testPostfix) << std::endl;
+
+    return 0;
+}
