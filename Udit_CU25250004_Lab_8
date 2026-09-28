@@ -1,0 +1,58 @@
+#1
+n, k = map(int, input("enter the number of integer(n) and size of array(k): ").split())
+arr = list(map(int, input().split()))
+
+window_sum = 0
+for i in range(k):
+    window_sum += arr[i]
+
+max_sum = window_sum
+
+for i in range(k, n):
+    window_sum += arr[i]
+    window_sum -= arr[i - k]
+    max_sum = max(max_sum, window_sum)
+
+print(max_sum)
+
+#2
+s = input().strip()
+seen = set()
+left = 0
+max_length = 0
+for right in range(len(s)):
+    while s[right] in seen:
+        seen.remove(s[left])
+        left += 1
+
+    seen.add(s[right])
+    max_length = max(max_length, right - left + 1)
+
+print(max_length)
+
+
+#3
+def solve():
+    n, m, k = map(int, input().split())
+
+    edges = []
+
+    for _ in range(m):
+        u, v, w = map(int, input().split())
+        edges.append((u, v, w))
+
+    dist = [float('inf')] * (n + 1)
+    dist[1] = 0
+
+    for _ in range(k):
+        new_dist = dist[:]
+
+        for u, v, w in edges:
+            new_dist[v] = min(new_dist[v], dist[u] + w)
+            new_dist[u] = min(new_dist[u], dist[v] + w)
+
+        dist = new_dist
+
+    print(-1 if dist[n] == float('inf') else dist[n])
+
+solve()
