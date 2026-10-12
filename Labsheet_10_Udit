@@ -1,0 +1,23 @@
+import sys
+from collections import defaultdict
+
+def digit_sum(n):
+    return sum(int(d) for d in str(abs(n)))
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    N = int(input_data[0])
+    nums = [int(x) for x in input_data[1:N + 1]]
+    
+    counts = defaultdict(int)
+    for num in nums:
+        counts[digit_sum(num)] += 1
+        
+    pair_count = sum(c * c for c in counts.values())
+    print(pair_count)
+
+if __name__ == '__main__':
+    solve()
