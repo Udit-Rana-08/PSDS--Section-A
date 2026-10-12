@@ -1,0 +1,29 @@
+
+import sys
+
+def solve():
+    input = sys.stdin.read
+    data = input().split()
+    
+    if not data:
+        return
+    
+    T = int(data[0])
+    idx = 1
+    
+    for _ in range(T):
+        N = int(data[idx])
+        idx += 1
+        
+        A = [int(x) for x in data[idx : idx + N]]
+        idx += N
+        
+        # If any element is positive, it's impossible (return -1)
+        if any(x > 0 for x in A):
+            print(-1)
+        else:
+            # Sum of operations needed (changing each negative number to 0)
+            print(sum(-x for x in A))
+
+if _name_ == "_main_":
+    solve()
